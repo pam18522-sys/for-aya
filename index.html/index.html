@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>A Special Journey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff4d6d;
+            --accent: #ff8fa3;
+            --glass: rgba(255, 255, 255, 0.96);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+
+        body {
+            margin: 0; padding: 0; min-height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle at 10% 20%, #fff0f3 0%, #ffccd5 100%);
+            padding: 15px; overflow: hidden;
+        }
+
+        .card {
+            background: var(--glass);
+            padding: 2.8rem 2rem;
+            border-radius: 50px;
+            box-shadow: 0 30px 60px rgba(255, 77, 109, 0.25), 
+                        0 10px 20px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(20px);
+            border: 1.5px solid rgba(255, 255, 255, 0.7);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 { 
+            color: var(--primary); 
+            font-family: 'Dancing Script', cursive; 
+            font-size: 3.2rem; 
+            margin: 0 0 15px;
+            letter-spacing: -1px;
+        }
+
+        p { color: #5a5a5a; margin-bottom: 25px; line-height: 1.6; font-size: 0.95rem; font-weight: 300; }
+
+        .step-content { animation: fadeInScale 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .gallery-wrapper {
+            width: 100%; height: 380px;
+            background: #fff; border-radius: 35px;
+            margin: 20px 0; overflow: hidden; position: relative;
+            border: 6px solid #fff;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; object-fit: cover; transition: opacity 1.2s ease-in-out;
+        }
+        .slide.active { opacity: 1; }
+
+        input, select {
+            width: 100%; padding: 18px; border: 2px solid #fff0f3;
+            border-radius: 22px; font-size: 1rem; margin-bottom: 15px;
+            background: #fff; transition: all 0.3s ease;
+            color: #333; box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+        }
+        input:focus { border-color: var(--primary); background: #fff; }
+
+        .btn {
+            width: 100%; background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white; padding: 20px; border-radius: 22px; border: none;
+            font-weight: 600; cursor: pointer; font-size: 1.05rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 12px 28px rgba(255, 77, 109, 0.35);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none; display: inline-block;
+        }
+
+        #yesBtn { animation: heartBeat 2s infinite; }
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.05); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.05); }
+            70% { transform: scale(1); }
+        }
+
+        #noBtn { background: #f8f8f8; color: #999; width: auto; padding: 12px 30px; box-shadow: none; font-size: 0.9rem; }
+
+        .hidden { display: none !important; }
+
+        .petal {
+            position: fixed; top: -10%; z-index: 1;
+            pointer-events: none; animation: fall linear forwards;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.8));
+        }
+        @keyframes fall { to { transform: translateY(110vh) rotate(720deg); } }
+
+        .progress-bar {
+            position: absolute; bottom: 0; left: 0; height: 6px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            width: 0%; z-index: 20;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div id="view1" class="step-content">
+            <h1>Special Access</h1>
+            <p>Verification required to continue this journey.</p>
+            <input type="text" id="nameInput" placeholder="Enter Full Name" autocomplete="off">
+            <button class="btn" onclick="validateName()">Verify Identity</button>
+        </div>
+
+        <div id="view2" class="step-content hidden">
+            <h1>Safe & Secure</h1>
+            <p>One more check, Aya. When is your special day?</p>
+            <div style="display: flex; gap: 10px; margin-bottom: 5px;">
+                <select id="birthMonth">
+                    <option value="">Month</option>
+                    <option value="1">January</option><option value="2">February</option>
+                    <option value="3">March</option><option value="4">April</option>
+                    <option value="5">May</option><option value="6">June</option>
+                    <option value="7">July</option><option value="8">August</option>
+                    <option value="9">September</option><option value="10">October</option>
+                    <option value="11">November</option><option value="12">December</option>
+                </select>
+                <input type="number" id="birthDay" placeholder="Day">
+            </div>
+            <button class="btn" onclick="validateBirthday()">Unlock Experience</button>
+        </div>
+
+        <div id="view3" class="step-content hidden">
+            <h1 style="font-size: 2.2rem;">For Aya Llaguno</h1>
+            <div class="gallery-wrapper">
+                <div id="slideContainer"></div>
+                <div class="progress-bar" id="pBar"></div>
+            </div>
+            <div id="zodiacSection">
+                <p>To reveal the final message... <b>What's "J"'s zodiac sign?</b></p>
+                <select id="zodiacSign" style="margin-bottom: 10px;">
+                    <option value="">Choose sign...</option>
+                    <option value="aries">Aries</option><option value="taurus">Taurus</option>
+                    <option value="gemini">Gemini</option><option value="cancer">Cancer</option>
+                    <option value="leo">Leo</option><option value="virgo">Virgo</option>
+                    <option value="libra">Libra</option><option value="scorpio">Scorpio</option>
+                    <option value="sagittarius">Sagittarius</option><option value="capricorn">Capricorn</option>
+                    <option value="aquarius">Aquarius</option><option value="pisces">Pisces</option>
+                </select>
+                <select id="knowJonathan">
+                    <option value="">Do you know "J"?</option>
+                    <option value="yes">Yes ❤️</option>
+                    <option value="no">No</option>
+                </select>
+                <button class="btn" onclick="handleZodiacCheck()">View Secret Message</button>
+            </div>
+
+            <div id="proposalSection" class="hidden">
+                <p style="font-size: 1rem; color: #444; padding: 0 10px;">
+                    Hello Aya, I hope this finds you smiling. This is <b>"J"</b>, asking from the heart—will you be my Valentine?
+                </p>
+                <div style="min-height: 160px; display: flex; justify-content: center; align-items: center; gap: 20px; position: relative;">
+                    <button class="btn" id="yesBtn">YES! ❤️</button>
+                    <button class="btn" id="noBtn">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let noScale = 1; let yesScale = 1; let currentIdx = 0;
+        const activeImages = [3, 1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15];
+
+        // Advanced Petal System
+        function createPetal() {
+            const p = document.createElement('div');
+            p.className = 'petal';
+            p.innerHTML = ['🌸','❤️','✨'][Math.floor(Math.random()*3)];
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.fontSize = Math.random() * 15 + 10 + 'px';
+            const dur = Math.random() * 4 + 4;
+            p.style.animationDuration = dur + 's';
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), dur * 1000);
+        }
+        setInterval(createPetal, 400);
+
+        function validateName() {
+            if(document.getElementById('nameInput').value.trim().toLowerCase() === "aya llaguno") {
+                switchView('view1', 'view2');
+            } else { alert("Please enter the correct name."); }
+        }
+
+        function validateBirthday() {
+            if(document.getElementById('birthMonth').value === "6" && document.getElementById('birthDay').value === "27") {
+                switchView('view2', 'view3');
+                startGallery();
+            } else { alert("Access Denied. Incorrect date."); }
+        }
+
+        function handleZodiacCheck() {
+            if (document.getElementById('zodiacSign').value === "leo" && document.getElementById('knowJonathan').value === "yes") {
+                document.getElementById('zodiacSection').classList.add('hidden');
+                document.getElementById('proposalSection').classList.remove('hidden');
+            } else { alert("Try again! Think about J."); }
+        }
+
+        function switchView(oldId, newId) {
+            document.getElementById(oldId).classList.add('hidden');
+            document.getElementById(newId).classList.remove('hidden');
+        }
+
+        function startGallery() {
+            const container = document.getElementById('slideContainer');
+            activeImages.forEach(num => {
+                const img = document.createElement('img');
+                img.src = `${num}.jpg`; img.className = 'slide';
+                img.onerror = () => img.remove();
+                container.appendChild(img);
+            });
+            const slides = document.querySelectorAll('.slide');
+            const rotate = () => {
+                slides.forEach(s => s.classList.remove('active'));
+                if(slides[currentIdx]) slides[currentIdx].classList.add('active');
+                const pBar = document.getElementById('pBar');
+                pBar.style.transition = 'none'; pBar.style.width = '0%';
+                setTimeout(() => { pBar.style.transition = 'width 4s linear'; pBar.style.width = '100%'; }, 50);
+                currentIdx = (currentIdx + 1) % slides.length;
+            };
+            rotate(); setInterval(rotate, 4000);
+        }
+
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const moveAndShrink = (e) => {
+            e.preventDefault();
+            noScale -= 0.18; yesScale += 0.22;
+            if(noScale <= 0.1) noBtn.style.display = 'none';
+            noBtn.style.transform = `scale(${noScale}) translate(${(Math.random()-0.5)*120}px, ${(Math.random()-0.5)*120}px)`;
+            yesBtn.style.transform = `scale(${yesScale})`;
+        };
+
+        noBtn.addEventListener('mouseenter', moveAndShrink);
+        noBtn.addEventListener('touchstart', moveAndShrink);
+
+        yesBtn.addEventListener('click', () => {
+            document.getElementById('view3').innerHTML = `
+                <div class="step-content">
+                    <h1>A Beautiful Yes! ❤️</h1>
+                    <p style="font-style: italic; color: #ff4d6d; font-size: 1.1rem;">"The stars have aligned, and your heart has spoken.<br>Since you've said <b>YES</b>, let this moment be unbroken."</p>
+                    <p>Take a screenshot of this moment, then click below to share the news with me:</p>
+                    <a href="https://www.facebook.com/noj.senasor" target="_blank" class="btn">Send your "YES" to "J"</a>
+                    <div style="font-size: 3rem; margin-top: 25px;">✨🌹😊</div>
+                </div>
+            `;
+            // Celebration Hearts
+            for(let i=0; i<40; i++) {
+                setTimeout(() => {
+                    const c = document.createElement('div');
+                    c.innerHTML = '❤️'; c.style.position = 'fixed';
+                    c.style.left = Math.random() * 100 + 'vw';
+                    c.style.top = '100vh'; c.style.zIndex = '100';
+                    c.style.transition = 'all 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                    document.body.appendChild(c);
+                    setTimeout(() => {
+                        c.style.transform = `translateY(-125vh) translateX(${(Math.random()-0.5)*100}px) rotate(${Math.random()*360}deg) scale(${Math.random()+1})`;
+                        c.style.opacity = '0';
+                    }, 50);
+                }, i * 40);
+            }
+        });
+    </script>
+</body>
+</html>
