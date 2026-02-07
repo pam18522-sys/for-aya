@@ -116,9 +116,24 @@
             background: linear-gradient(to right, var(--primary), var(--accent));
             width: 0%; z-index: 20;
         }
+
+        /* Music Toggle UI */
+        #musicToggle {
+            position: fixed; bottom: 20px; right: 20px; z-index: 1000;
+            background: white; border-radius: 50%; width: 45px; height: 45px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); cursor: pointer;
+            font-size: 1.2rem; border: none;
+        }
     </style>
 </head>
 <body>
+
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <button id="musicToggle" class="hidden" onclick="toggleMusic()">🔊</button>
 
     <div class="card">
         <div id="view1" class="step-content">
@@ -186,8 +201,27 @@
     <script>
         let noScale = 1; let yesScale = 1; let currentIdx = 0;
         const activeImages = [3, 1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15];
+        const audio = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicToggle');
 
-        // Advanced Petal System
+        // Music Functions
+        function playMusic() {
+            audio.play().then(() => {
+                musicBtn.classList.remove('hidden');
+            }).catch(e => console.log("Music blocked by browser until next click."));
+        }
+
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+                musicBtn.innerHTML = "🔊";
+            } else {
+                audio.pause();
+                musicBtn.innerHTML = "🔇";
+            }
+        }
+
+        // Petal System
         function createPetal() {
             const p = document.createElement('div');
             p.className = 'petal';
@@ -203,6 +237,7 @@
 
         function validateName() {
             if(document.getElementById('nameInput').value.trim().toLowerCase() === "aya llaguno") {
+                playMusic(); // Music starts here!
                 switchView('view1', 'view2');
             } else { alert("Please enter the correct name."); }
         }
